@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
+    <title>Queue</title>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        
+        var audio = new Audio('static/sound/mixkit-positive-interface-beep-221.wav');
+
+       // console.log('http://' + document.domain + ':' + location.port);
+        var no = 1;
+        document.addEventListener("DOMContentLoaded", ()=> {
+            // document.getElementById('btn1').onclick = function() {
+            // var message = document.getElementById('btn1').value;
+            // no +=1;
+            // socket.emit('test',no); };
+
+
+            // document.getElementById('btn2').onclick = function() {
+            // var message = document.getElementById('btn2').value;
+            // let msg ={"data": "1", "msg":"call queu"};
+            // socket.emit('json', msg);     };
+
+
+           socket.on('json', function(data) {
+            let o = data;
+            console.log(o)
+             var intext =document.getElementById(o.data.id).innerText;
+            document.getElementById(o.data.id).style.backgroundColor = 'yellow';
+            document.getElementById(o.data.id).disabled = true;
+            document.getElementById(o.data.id).innerText = "กำลังเรียกคิว";
+            audio.play();
+            setTimeout(() => {
+                document.getElementById(o.data.id).style.backgroundColor = '';
+                document.getElementById(o.data.id).disabled = false;
+                document.getElementById(o.data.id).innerText = intext;
+            audio.pause();
+            }, 2000);
+             });
+
+            
+
+        })
+
+
+        function test(id, name,qno) {
+            let r = Math.floor(Math.random() * 101);
+            var message = document.getElementById(id).value;
+            let msg ={"data": name, "msg":"call queu","id":id,"qno": r};
+            socket.emit('json', msg); };
+
+            socket.on('myconnect', function(data) {
+            let o = data;
+            console.log(data)
+             });
+             
+      
+    </script>
+</head>
+<body>
+
+<div id="data">
+    <button id="btn1" type="button" class="send" style="padding: 50px;" value="1" onclick="test(this.id , this.value,this.value)" >Room 1
+    </button>
+    <button id="btn2" type="button" class="send" style="padding: 50px;"  value="2" onclick="test(this.id , this.value,this.value)" >Room 2
+    </button>
+    <button id="btn3" type="button" class="send" style="padding: 50px;"  value="3" onclick="test(this.id , this.value,this.value)" >Room 3
+    </button>
+</div>
+    
+</body>
+</html>

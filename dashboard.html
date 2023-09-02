@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Queue System Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .queue-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .queue {
+            margin: 0 20px;
+            text-align: center;
+        }
+        
+        .counter-label {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .token-label {
+            font-size: 48px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .queue-buttons {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 queue-container">
+                <div class="queue">
+                    <div class="counter-label">Counter 1</div>
+                    <div class="token-label">Token: <span id="queue1-token">-</span></div>
+                    <div class="queue-buttons">
+                        <button class="btn btn-primary" onclick="getNextToken(1)">Next</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 queue-container">
+                <div class="queue">
+                    <div class="counter-label">Counter 2</div>
+                    <div class="token-label">Token: <span id="queue2-token">-</span></div>
+                    <div class="queue-buttons">
+                        <button class="btn btn-primary" onclick="getNextToken(2)">Next</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 queue-container">
+                <div class="queue">
+                    <div class="counter-label">Counter 3</div>
+                    <div class="token-label">Token: <span id="queue3-token">-</span></div>
+                    <div class="queue-buttons">
+                        <button class="btn btn-primary" onclick="getNextToken(3)">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var queues = {
+            1: ['A1', 'A2', 'A3', 'A4'],
+            2: ['B1', 'B2', 'B3'],
+            3: ['C1', 'C2', 'C3', 'C4', 'C5']
+        };
+        
+        function getNextToken(counter) {
+            if (queues[counter].length > 0) {
+                var nextToken = queues[counter].shift();
+                updateTokenLabel(counter, nextToken);
+            }
+        }
+        
+        function updateTokenLabel(counter, token) {
+            var tokenLabel = document.getElementById('queue' + counter + '-token');
+            tokenLabel.innerText = token;
+        }
+    </script>
+</body>
+</html>
